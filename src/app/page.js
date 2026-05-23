@@ -11,11 +11,15 @@ export default function LandingPage() {
       {/* Navigation Bar */}
       <nav style={{ width: '100%', maxWidth: '1200px', padding: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <h1 className="gradient-text" style={{ fontSize: '2rem', margin: 0 }}>Expense Tracker</h1>
-        <Link href="/login">
-          <button className="btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            Sign In <ArrowRight size={16} />
-          </button>
-        </Link>
+        <div style={{ display: 'flex', gap: '24px', alignItems: 'center' }}>
+          <Link href="/about" className="nav-link" style={{ background: 'transparent', padding: 0 }}>About</Link>
+          <Link href="/login" className="nav-link" style={{ background: 'transparent', padding: 0 }}>Sign In</Link>
+          <Link href="/signup">
+            <button className="btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              Sign Up <ArrowRight size={16} />
+            </button>
+          </Link>
+        </div>
       </nav>
 
       {/* Hero Section */}
@@ -26,7 +30,7 @@ export default function LandingPage() {
         <p style={{ fontSize: '1.2rem', color: 'var(--text-secondary)', marginBottom: '40px', lineHeight: '1.6' }}>
           Stop wondering where your money goes. Track expenses, analyze spending habits, and get AI-powered insights to secure your financial future.
         </p>
-        <Link href="/login">
+        <Link href="/signup">
           <button className="btn-primary" style={{ padding: '16px 32px', fontSize: '1.1rem', borderRadius: '100px', boxShadow: '0 8px 30px rgba(124, 58, 237, 0.4)' }}>
             Start Tracking for Free
           </button>

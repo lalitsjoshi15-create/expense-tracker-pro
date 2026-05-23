@@ -7,8 +7,9 @@ import { LayoutDashboard, ListVideo, Sparkles, LogOut } from 'lucide-react';
 export default function Sidebar() {
   const pathname = usePathname();
 
-  // Don't show sidebar on login or landing page
-  if (pathname === '/login' || pathname === '/') return null;
+  // Don't show sidebar on public pages
+  const publicPages = ['/', '/login', '/signup', '/about'];
+  if (publicPages.includes(pathname)) return null;
 
   return (
     <aside className="sidebar glass-panel">
