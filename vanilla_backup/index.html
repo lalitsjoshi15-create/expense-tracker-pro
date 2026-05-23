@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexusSpend - Next Gen Expense Tracker</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- LOGIN VIEW -->
+    <div id="login-view" class="view-container active-view login-container">
+        <div class="glass-card login-card">
+            <h1 class="gradient-text">NexusSpend</h1>
+            <p class="subtitle" style="margin-bottom: 32px;">Welcome back. Please sign in.</p>
+            
+            <form id="login-form">
+                <input type="email" id="login-email" placeholder="Email Address" required>
+                <input type="password" id="login-password" placeholder="Password" required>
+                <button type="submit" class="btn-primary" style="margin-top: 16px;">Sign In</button>
+                <p style="text-align: center; margin-top: 16px; color: var(--text-secondary); font-size: 0.9rem;">
+                    (For this demo, just click Sign In)
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <!-- MAIN APP VIEW (Sidebar + Content) -->
+    <div id="app-view" class="view-container app-layout">
+        
+        <!-- SIDEBAR -->
+        <aside class="sidebar glass-card">
+            <div class="sidebar-brand">
+                <h2 class="gradient-text" style="font-size: 1.8rem;">Nexus</h2>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <button class="nav-btn active" data-target="dashboard-section">
+                    <i data-lucide="layout-dashboard"></i> Dashboard
+                </button>
+                <button class="nav-btn" data-target="transactions-section">
+                    <i data-lucide="list-video"></i> Transactions
+                </button>
+                <button class="nav-btn" data-target="insights-section">
+                    <i data-lucide="sparkles"></i> Insights
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button class="nav-btn logout-btn" id="logout-btn">
+                    <i data-lucide="log-out"></i> Sign Out
+                </button>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT AREA -->
+        <main class="main-content">
+            
+            <!-- DASHBOARD SECTION -->
+            <section id="dashboard-section" class="content-section active-section">
+                <header class="section-header">
+                    <h2>Dashboard Overview</h2>
+                    <p class="subtitle">Your financial snapshot.</p>
+                </header>
+
+                <div class="cards-grid">
+                    <div class="glass-card" id="balance-card">
+                        <div class="card-header">
+                            <h3>Total Balance</h3>
+                            <i data-lucide="wallet" class="icon-primary"></i>
+                        </div>
+                        <h2 id="total-balance" class="amount">$0.00</h2>
+                    </div>
+                    <div class="glass-card">
+                        <div class="card-header">
+                            <h3>Income</h3>
+                            <i data-lucide="trending-up" class="icon-success"></i>
+                        </div>
+                        <h2 id="total-income" class="amount success">$0.00</h2>
+                    </div>
+                    <div class="glass-card">
+                        <div class="card-header">
+                            <h3>Expenses</h3>
+                            <i data-lucide="trending-down" class="icon-danger"></i>
+                        </div>
+                        <h2 id="total-expense" class="amount danger">$0.00</h2>
+                    </div>
+                </div>
+
+                <div class="glass-card chart-container" style="margin-top: 24px;">
+                    <h3>Expense Trends</h3>
+                    <div class="chart-wrapper">
+                        <canvas id="trendChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TRANSACTIONS SECTION -->
+            <section id="transactions-section" class="content-section">
+                <header class="section-header">
+                    <h2>Transactions</h2>
+                    <p class="subtitle">Manage your income and expenses.</p>
+                </header>
+
+                <div class="two-col-layout">
+                    <!-- Form -->
+                    <div class="glass-card form-card" style="height: fit-content;">
+                        <h3>Add New Transaction</h3>
+                        <form id="transaction-form">
+                            <input type="text" id="tx-title" placeholder="Description (e.g., Groceries)" required>
+                            <div class="input-row">
+                                <input type="number" id="tx-amount" placeholder="Amount" step="0.01" min="0" required>
+                                <select id="tx-type">
+                                    <option value="expense">Expense</option>
+                                    <option value="income">Income</option>
+                                </select>
+                            </div>
+                            <select id="tx-category">
+                                <option value="Food">Food & Dining</option>
+                                <option value="Transport">Transport</option>
+                                <option value="Shopping">Shopping</option>
+                                <option value="Bills">Bills & Utilities</option>
+                                <option value="Entertainment">Entertainment</option>
+                                <option value="Salary">Salary (Income)</option>
+                                <option value="Other">Other</option>
+                            </select>
+                            <button type="submit" class="btn-primary" id="submit-btn">Add Transaction</button>
+                        </form>
+                    </div>
+
+                    <!-- List -->
+                    <div class="glass-card list-card" style="max-height: 600px;">
+                        <h3>History</h3>
+                        <div id="transaction-list" class="transaction-list">
+                            <div class="empty-state">No transactions yet.</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- INSIGHTS SECTION -->
+            <section id="insights-section" class="content-section">
+                <header class="section-header">
+                    <h2>Analytics & Insights</h2>
+                    <p class="subtitle">Deep dive into your financial habits.</p>
+                </header>
+
+                <div class="two-col-layout">
+                    <div class="glass-card health-card">
+                        <h3>Financial Health Score</h3>
+                        <div class="gauge-container">
+                            <div class="circular-progress" id="health-gauge">
+                                <div class="inner-circle">
+                                    <span id="health-score">50</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p id="health-message" class="health-message">Neutral standing.</p>
+                    </div>
+
+                    <div class="glass-card chart-container">
+                        <h3>Expenses by Category</h3>
+                        <div class="chart-wrapper pie-wrapper">
+                            <canvas id="pieChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card insights-card" style="margin-top: 24px;">
+                    <h3><i data-lucide="sparkles"></i> AI Smart Insights</h3>
+                    <ul id="insights-list" class="insights-list">
+                        <li class="insight-item">Add transactions to get AI-powered insights.</li>
+                    </ul>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
+      import { getFirestore, collection, addDoc, onSnapshot, query, orderBy } 
+        from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
+      
+      window.initializeApp = initializeApp;
+      window.getFirestore = getFirestore;
+      window.collection = collection;
+      window.addDoc = addDoc;
+      window.onSnapshot = onSnapshot;
+      window.query = query;
+      window.orderBy = orderBy;
+    </script>
+    <script type="module" src="app.js"></script>
+</body>
+</html>
