@@ -1,5 +1,6 @@
 import './globals.css';
 import Sidebar from '@/components/Sidebar';
+import { Analytics } from '@vercel/analytics/react';
 
 export const metadata = {
   title: 'Expense Tracker | Next-Gen Finance Dashboard',
@@ -17,6 +18,7 @@ export default function RootLayout({ children }) {
           <Sidebar />
           <main className="main-content">
             {children}
+            <Analytics />
           </main>
         </div>
       </body>
